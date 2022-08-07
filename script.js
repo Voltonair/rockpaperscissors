@@ -43,36 +43,36 @@ function playGame(userChoice, computerChoice) {
     if (userChoice === "rock") {
         if (computerChoice === "scissors") {
             scorePlayer++
-            console.log("You win, rock beats scissors");
+            displayWinner.innerHTML = "You win, rock beats scissors";
         } else if (computerChoice === "paper") {
             scoreIA++
-            console.log("You lose, paper beats rock");
+            displayWinner.innerHTML = "You lose, paper beats rock";
         } else if (userChoice === computerChoice) {
-            console.log("Tie");
+            displayWinner.innerHTML = "It's a tie!";
         }
     }
 
     if (userChoice === "paper") {
         if (computerChoice === "rock") {
             scorePlayer++
-            console.log("You win, paper beats rock");
+            displayWinner.innerHTML = "You win, paper beats rock";
         } else if (computerChoice === "scissors") {
             scoreIA++
-            console.log("You lose, scissors beats paper");
+            displayWinner.innerHTML = "You lose, scissors beats paper";
         } else if (userChoice === computerChoice) {
-            console.log("Tie");
+            displayWinner.innerHTML = "It's a tie!";
         }
     }
 
     if (userChoice === "scissors") {
         if (computerChoice === "paper") {
             scorePlayer++
-            console.log("You win, scissors beats paper");
+            displayWinner.innerHTML = "You win, scissors beats paper";
         } else if (computerChoice === "rock") {
             scoreIA++
-            console.log("You lose, rock beats scissors");
+            displayWinner.innerHTML = "You lose, rock beats scissors";
         } else if (userChoice === computerChoice) {
-            console.log("Tie"); 
+            displayWinner.innerHTML = "It's a tie!"; 
         }
     }
 }
@@ -132,17 +132,20 @@ userSelection.forEach(button => {
             restartBtn.classList = "restart-button";
             restartBtn.appendChild(restartImg);
             
+            // Get a function with the restart button append and set time out
             function getRestartButton () {
                 restartDiv.appendChild(restartBtn);
             }
             setTimeout(getRestartButton, 2500);
 
+            // Creates a var with all 3 buttons length and a foor-loop to stop the count
             const length = selectBtn.length;
-
             for (let i = 0; i < length; i++) {
                 selectBtn[i].disabled = true;
             }
+            //
 
+            // Get event foe the restart button
             restartBtn.addEventListener("click", () => {
                 for (let i = 0; i < length; i++) {
                     scoreIA = 0;
