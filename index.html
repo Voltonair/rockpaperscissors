@@ -1,12 +1,47 @@
 <!DOCTYPE html>
-<html>
-    <meta charset="UTF-8" lang="en">
-    <head>
-        <title>Rock, paper and scissors</title>
-        <link rel="stylesheet" href="style.css">
-        <script src="script.js"></script>
-    </head>
-    <body>
-        Rock, paper and scissors!
-    </body>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="script.js" defer></script>
+    <link rel="stylesheet" href="style.css">
+    <title>Rock, paper and scissors!</title>
+</head>
+<body>
+    <div id="container">
+        <div id="container-header">
+            <h1>Rock, paper and scissors!</h1>
+            <div id="user-form">
+                <form>
+                    <label for="user-form"><span id="name-text">What is your name? </span><input type="text" id="text-box" placeholder="Introduce your name..." onchange="regInput(this)"></label>
+                </form>
+            </div>
+                <div id="display-whole"><h2 id="display-name"></h2></div>
+            <div id="container-content">
+                <div id="display-user"><img src="imgs/placeholder.png" alt="placeholder"></div>
+                <span id="vs">VS.</span>
+                <div id="display-computer"><img src="imgs/placeholder.png" alt="placeholder"></div>
+            </div>
+            <div id="display-score">
+                <span class="score">Score: <span id="user-score">0</span></span>
+                <span class="score">Score: <span id="computer-score">0</span></span>
+            </div>
+            <div id ="user-choice">
+                <button class="btn" id="rock" data-select="rock"><img src="imgs/rock.png" alt="rock"></button>
+                <button class="btn" id="paper" data-select="paper"><img src="imgs/paper.png" alt="paper"></button>
+                <button class="btn" id="scissors" data-select="scissors"><img src="imgs/scissors.png" alt="scissors"></button>
+            </div>
+            <div id="display-winner">Who will win?</div>
+                <div id="align-button"><div id="show-button"></button></div>
+            </div>
+        </div>
+    </div>
+
+    <audio data-option="win" src="sounds/win.wav"></audio>
+    <audio data-option="lose" src="sounds/lose.wav"></audio>
+    <audio data-option="rock" src="sounds/rock.wav"></audio>
+    <audio data-option="paper" src="sounds/paper.wav"></audio>
+    <audio data-option="scissors" src="sounds/scissors.wav"></audio>
+</body>
 </html>

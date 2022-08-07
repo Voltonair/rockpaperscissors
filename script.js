@@ -1,82 +1,164 @@
-/* PSEUDO
-CREATE A COMPUTER THAT GENERATES ONE OF THREE RANDOM CHOICES
-CREATE A FUNCTION THAT PLAYS ONE ROUND VS COMPUTERPLAYS.
-CREATE A FUNCTION TO STORE PLAYER NAME
-CREATE A FUNCTION THAT PLAYS 5 ROUNDS AND STORES THE SCORE OF BOTH
-*/
+// DOM variables
+const displayName = document.querySelector("#display-name");
+const displayUser = document.querySelector("#display-user");
+const displayIA = document.querySelector("#display-computer");
+const selectBtn = document.querySelectorAll(".btn");
+const displayUserScore = document.querySelector("#user-score");
+const displayComputerScore = document.querySelector("#computer-score");
+const userForm = document.querySelector("#user-form");
+const textBox = document.querySelector("#text-box");
+const displayWinner = document.querySelector("#display-winner");
 
-// GLobal variables
-let playerScore = 0;
-let computerScore = 0;
+// Get audio variable
+const audio = document.querySelectorAll("[data-option]");
 
-function computerPlay() { // Computer randomly chooses.
-    let randomSelection = ["rock", "paper", "scissors"]
-    let randomChoice = randomSelection[Math.floor(Math.random() * randomSelection.length)]
-    return randomChoice;
+// Get score and player names
+let playerName = "";
+let scorePlayer = 0;
+let scoreIA = 0;
+
+
+// IA gets a random choice
+function getRandomNum() {
+    const choices = ["rock", "paper", "scissors"];
+    const randomNum = Math.floor(Math.random () * choices.length);
+    return choices[randomNum];
 }
 
-function playRound (playerSelection, computerSelection) { // Play a single round of the game
-    if (playerSelection === "rock") {
-        if(computerSelection === "scissors") {
-            return playerScore++,
-            "You win! Rock beats scissors!";
-        } else if (computerSelection === "paper") {
-            return computerScore++,
-            "You lose! Paper beats rock!";
-        } else if (playerSelection === computerSelection) {
-            return "It's a tie!";
+// Get player's name value
+function regInput (e) {
+    const value = e.value;
+    playerName = value;
+}
+
+// Get and store player's name
+userForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    displayName.innerHTML = "Hi " + playerName + ", " + "let's play!";
+    textBox.value = "";
+})
+
+// Play rounds
+function playGame(userChoice, computerChoice) {
+    if (userChoice === "rock") {
+        if (computerChoice === "scissors") {
+            scorePlayer++
+            console.log("You win, rock beats scissors");
+        } else if (computerChoice === "paper") {
+            scoreIA++
+            console.log("You lose, paper beats rock");
+        } else if (userChoice === computerChoice) {
+            console.log("Tie");
         }
     }
 
-    if (playerSelection === "paper") {
-        if (computerSelection === "rock") {
-            return playerScore++,
-            "You win! Paper beats rock!";
-        } else if (computerSelection === "scissors") {
-            return computerScore++,
-            "You lose! Scissors beats paper";
-        } else if (playerSelection === computerSelection) {
-            return "It's a tie!";
+    if (userChoice === "paper") {
+        if (computerChoice === "rock") {
+            scorePlayer++
+            console.log("You win, paper beats rock");
+        } else if (computerChoice === "scissors") {
+            scoreIA++
+            console.log("You lose, scissors beats paper");
+        } else if (userChoice === computerChoice) {
+            console.log("Tie");
         }
     }
-    
-    if (playerSelection === "scissors") {
-        if (computerSelection === "paper") {
-            return playerScore++,
-            "You win! Scissors beats paper!";
-        } else if (computerSelection === "rock") {
-            return computerScore++,
-            "You lose! Rock beats scissors!";
-        } else if (playerSelection === computerSelection) {
-            return "It's a tie!";
+
+    if (userChoice === "scissors") {
+        if (computerChoice === "paper") {
+            scorePlayer++
+            console.log("You win, scissors beats paper");
+        } else if (computerChoice === "rock") {
+            scoreIA++
+            console.log("You lose, rock beats scissors");
+        } else if (userChoice === computerChoice) {
+            console.log("Tie"); 
         }
     }
 }
 
-function getScore() { // Get player and computer score.
-    if (playerScore > computerScore) {
-        return "Player Wins!";
-    } else if (computerScore > playerScore) {
-        return "Computer wins!";
-    } else if (playerScore === computerScore) {
-        return "Draw!";
+// Get scores and make it sound.
+function getScore () {
+
+    // Get these 2 functions to set a time out
+    function getWinningSound () {
+        audio[0].play();
+    }
+
+    function getLosingSound () {
+        audio[1].play();
+    }
+    //
+
+    if (scorePlayer === 3) {
+        if (playerName !== "") {
+            displayWinner.innerHTML = playerName + " wins!!!";
+        } else {
+            displayWinner.innerHTML = "John Doe wins!!!";
+        }
+        setTimeout(getWinningSound, 700);
+    }
+
+    if (scoreIA === 3) {
+        displayWinner.innerHTML = "Computer wins, you lose!";
+        setTimeout(getLosingSound, 700);
     }
 }
 
-function getPlayerName() { // Ask the player for his/her name.
-    let playerName = prompt("What is your name?");
-    alert(`Welcome, ${playerName}, press OK to play!`);
+// Convert nodelist into array for the sake of cleaning.
+const userSelection = Array.from(selectBtn);
 
-}
+// For each button you click...
+userSelection.forEach(button => {
+    button.addEventListener("click", () => {
+        const computerChoice = getRandomNum();
+        const userChoice = button.dataset.select;
 
-function game() { // Call playround func. 5 times to play 5 rounds.
-    getPlayerName();
-    for (i = 0; i < 5; i++) {
-        playerSelection = prompt("Rock, paper or scissors?").toLowerCase();
-        console.log(playRound(playerSelection, computerPlay()));
-    }
-    console.log(getScore());
-}
+        playGame(userChoice, computerChoice);
+        getScore();
 
+        displayUserScore.innerHTML = scorePlayer;
+        displayComputerScore.innerHTML = scoreIA;
+        displayUser.innerHTML = "<img src=imgs/"+userChoice+".png>";
+        displayIA.innerHTML = "<img src=imgs/"+computerChoice+".png>";
 
-game(); // Execute the game.
+        if (scorePlayer === 3 || scoreIA === 3) {
+            const restartImg = document.createElement("img");
+            restartImg.src = "imgs/repeat.png";
+            restartImg.alt = "Restart button";
+
+            const restartDiv = document.querySelector("#show-button");
+            const restartBtn = document.createElement("button")
+            restartBtn.classList = "restart-button";
+            restartBtn.appendChild(restartImg);
+            
+            function getRestartButton () {
+                restartDiv.appendChild(restartBtn);
+            }
+            setTimeout(getRestartButton, 2500);
+
+            const length = selectBtn.length;
+
+            for (let i = 0; i < length; i++) {
+                selectBtn[i].disabled = true;
+            }
+
+            restartBtn.addEventListener("click", () => {
+                for (let i = 0; i < length; i++) {
+                    scoreIA = 0;
+                    scorePlayer = 0;
+                    displayComputerScore.innerHTML = "0";
+                    displayUserScore.innerHTML = "0";
+                    displayUser.innerHTML = "<img src=imgs/placeholder.png>";
+                    displayIA.innerHTML = "<img src=imgs/placeholder.png>";
+                    restartDiv.innerHTML = "";
+                    displayWinner.innerHTML = "Who will win this time?";
+                }
+
+                for (let i = 0; i < length; i++) {
+                    selectBtn[i].disabled = false;
+                }
+            })
+        }
+    })
+})
