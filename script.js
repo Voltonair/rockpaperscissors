@@ -88,6 +88,8 @@ function resetButton() {
             displayUserScore.innerHTML = storeUserMessage;
             displayComputerScore.innerHTML = storeComputerMessage;
             displayResultMessage.innerHTML = storeDefaultWinnerMessage;
+            userSelection.innerHTML = "<img src=imgs/placeholder.png>";
+            computerSelection.innerHTML = "<img src=imgs/placeholder.png>";
         }
     })
 }
